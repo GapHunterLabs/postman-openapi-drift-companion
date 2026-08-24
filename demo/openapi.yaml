@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info:
+  title: Acmecorp Order API
+  version: 1.0.0
+paths:
+  /orders:
+    get:
+      summary: List orders
+  /orders/{id}:
+    get:
+      summary: Get an order

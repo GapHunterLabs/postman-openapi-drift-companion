@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "Acmecorp Order API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List orders",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/orders",
+          "path": ["orders"]
+        }
+      }
+    },
+    {
+      "name": "Get legacy order status (removed from spec)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/orders/:id/legacy-status",
+          "path": ["orders", ":id", "legacy-status"]
+        }
+      }
+    }
+  ]
+}
