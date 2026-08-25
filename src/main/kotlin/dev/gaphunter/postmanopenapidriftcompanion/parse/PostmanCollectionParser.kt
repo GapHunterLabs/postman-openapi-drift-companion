@@ -4,6 +4,7 @@ import com.intellij.json.psi.JsonArray
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
 import com.intellij.json.psi.JsonStringLiteral
+import com.intellij.psi.PsiElement
 import dev.gaphunter.postmanopenapidriftcompanion.model.PostmanEndpoint
 
 /**
@@ -39,25 +40,31 @@ object PostmanCollectionParser {
 
             val requestObject = itemObject.findProperty("request")?.value as? JsonObject ?: continue
             val method = (requestObject.findProperty("method")?.value as? JsonStringLiteral)?.value ?: "GET"
-            val urlProperty = requestObject.findProperty("url") ?: continue
-            val urlValue = urlProperty.value
+            val urlValue = requestObject.findProperty("url")?.value ?: continue
 
-            val segments = when (urlValue) {
+            val segments: List<String>
+            val anchorElement: PsiElement
+            when (urlValue) {
                 is JsonObject -> {
                     val pathArray = urlValue.findProperty("path")?.value as? JsonArray
+                    val rawLiteral = urlValue.findProperty("raw")?.value as? JsonStringLiteral
                     if (pathArray != null) {
-                        pathArray.valueList.mapNotNull { (it as? JsonStringLiteral)?.value }
+                        segments = pathArray.valueList.mapNotNull { (it as? JsonStringLiteral)?.value }
+                        anchorElement = rawLiteral ?: pathArray
                     } else {
-                        val rawLiteral = urlValue.findProperty("raw")?.value as? JsonStringLiteral
-                        segmentsFromRaw(rawLiteral?.value)
+                        segments = segmentsFromRaw(rawLiteral?.value)
+                        anchorElement = rawLiteral ?: urlValue
                     }
                 }
-                is JsonStringLiteral -> segmentsFromRaw(urlValue.value)
-                else -> emptyList()
+                is JsonStringLiteral -> {
+                    segments = segmentsFromRaw(urlValue.value)
+                    anchorElement = urlValue
+                }
+                else -> continue
             }
             if (segments.isEmpty()) continue
 
-            out += PostmanEndpoint(method.uppercase(), segments, urlProperty)
+            out += PostmanEndpoint(method.uppercase(), segments, anchorElement)
         }
     }
 
