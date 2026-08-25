@@ -6,7 +6,6 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.json.psi.JsonFile
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import dev.gaphunter.postmanopenapidriftcompanion.parse.OpenApiPathScanner
 import dev.gaphunter.postmanopenapidriftcompanion.parse.OpenApiSpecLocator
@@ -45,7 +44,7 @@ class PostmanEndpointDriftInspection : LocalInspectionTool() {
         for (endpoint in endpoints) {
             if (PathMatcher.existsInSpec(endpoint.pathSegments, specPaths)) continue
 
-            val anchor = leafOf(endpoint.urlProperty) ?: continue
+            val anchor = endpoint.anchorElement
             val displayPath = "/" + endpoint.pathSegments.joinToString("/")
             problems += manager.createProblemDescriptor(
                 anchor,
@@ -60,11 +59,5 @@ class PostmanEndpointDriftInspection : LocalInspectionTool() {
         }
 
         return if (problems.isEmpty()) null else problems.toTypedArray()
-    }
-
-    private fun leafOf(element: PsiElement): PsiElement? {
-        var current = element
-        while (current.firstChild != null) current = current.firstChild
-        return current
     }
 }
