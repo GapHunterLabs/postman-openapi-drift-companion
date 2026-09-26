@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.2]
+
+### Fixed
+
+- Review/star CTA now links to this plugin's own Marketplace
+  reviews page instead of the vendor's generic plugin list.
+
 ## [0.1.1]
 
 ### Fixed
@@ -27,6 +34,7 @@
 - 100% static analysis (JSON PSI for the collection, plain text scan
   for the spec), no network calls, no telemetry. Free.
 
-[Unreleased]: https://github.com/GapHunterLabs/postman-openapi-drift-companion/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/postman-openapi-drift-companion/compare/0.1.2...HEAD
+[0.1.2]: https://github.com/GapHunterLabs/postman-openapi-drift-companion/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/GapHunterLabs/postman-openapi-drift-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/postman-openapi-drift-companion/commits/0.1.0
