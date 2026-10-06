@@ -1,0 +1,10 @@
+<html>
+<body>
+Reports an endpoint in a Postman collection (<code>*.postman_collection.json</code>) whose method and path no
+longer exist in the project's OpenAPI or Swagger specification.
+<!-- tooltip end -->
+<p>Collections and specs drift apart silently when an endpoint is renamed or removed, and the stale request is
+usually found only when it starts returning 404. Requests are read from the collection's
+<code>item[].request.url</code> (Postman Collection Format v2.1.0).</p>
+</body>
+</html>
